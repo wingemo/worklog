@@ -1,17 +1,20 @@
 /* =======================
-   Grundinställningar
+   ROOT & BODY (KRITISKT)
    ======================= */
 html, body {
   height: 100%;
   margin: 0;
-  padding: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
   background-color: #f8f9fa;
   font-family: 'Poppins', sans-serif;
-  padding-bottom: 90px;
 }
 
 /* =======================
-   Header
+   HEADER
    ======================= */
 header .logo-container {
   display: flex;
@@ -37,37 +40,39 @@ header .logo-text small {
 }
 
 /* =======================
-   Ytterkontainer
+   HUVUDLAYOUT
    ======================= */
 .chat-container {
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
-  height: 100%; /* Viktigt för full höjd */
   max-width: 900px;
   margin: 0 auto;
-}
-
-/* =======================
-   Chat / Historik vyer
-   ======================= */
-#chat-view,
-#history-view {
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 auto;
   overflow: hidden;
 }
 
 /* =======================
-   Chat-log
+   CHAT / HISTORIK VYER
+   ======================= */
+#chat-view,
+#history-view {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* =======================
+   CHAT-LOG (SCROLL HÄR)
    ======================= */
 .chat-log {
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
   gap: 8px;
   padding: 12px;
-  flex: 1 1 auto;
   overflow-y: auto;
+  min-height: 0; /* 🔥 FIXAR DESKTOP-SCROLL */
   background: #f9f9f9;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -75,7 +80,7 @@ header .logo-text small {
 }
 
 /* =======================
-   Chat-bubblor
+   CHAT-BUBBLOR
    ======================= */
 .chat-bubble {
   max-width: 60%;
@@ -113,7 +118,7 @@ header .logo-text small {
 }
 
 /* =======================
-   Historik inom bubblan
+   HISTORIK I CHATBUBBLA
    ======================= */
 .history-row {
   margin-bottom: 6px;
@@ -145,22 +150,25 @@ header .logo-text small {
 }
 
 /* =======================
-   Chat-input
+   CHAT-INPUT (FAST NEDTILL)
    ======================= */
 .chat-input {
-  z-index: 1030;
-  box-shadow: 0 -4px 10px rgba(0,0,0,0.08);
+  flex-shrink: 0;
+  height: 90px;
   padding: 12px;
   background: #fff;
   border-top: 1px solid #ddd;
+  box-shadow: 0 -4px 10px rgba(0,0,0,0.08);
+  z-index: 1030;
 }
 
 /* =======================
-   Historik-sektionen
+   HISTORIK-SEKTION
    ======================= */
 #historyLogs {
   flex: 1 1 auto;
   overflow-y: auto;
+  min-height: 0; /* 🔥 SAMMA FIX */
   padding: 12px;
   box-sizing: border-box;
 }
@@ -171,19 +179,4 @@ header .logo-text small {
   padding: 12px;
   margin-bottom: 12px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-
-/* =======================
-   Responsiv höjd för chat och historik
-   ======================= */
-@media (max-width: 768px) {
-  .chat-log, #historyLogs {
-    height: 50vh;
-  }
-}
-
-@media (min-width: 769px) {
-  .chat-log, #historyLogs {
-    height: 70vh;
-  }
 }
