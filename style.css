@@ -34,7 +34,12 @@ header .logo-text small {
 .chat-log {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0.5rem;
+  /* Anpassa max-height efter header + input; här ett rimligt förslag */
+  max-height: calc(100vh - 180px);
+  overflow-y: auto;
+@@ -11,12 +14,49 @@
+  -webkit-overflow-scrolling: touch;
 }
 
 .chat-bubble {
