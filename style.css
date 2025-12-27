@@ -14,10 +14,11 @@ body {
 
 /* Header - alltid synlig högst upp */
 header {
-  position: sticky; /* eller 'fixed' om du vill */
+  position: fixed; /* ändrat från sticky till fixed */
   top: 0;
   left: 0;
   right: 0;
+  width: 100%;
   height: var(--header-height);
   z-index: 2000; /* Ökat så headerknappar alltid kan klickas */
   background: #ffffff; /* se till att header täcker innehållet bakom */
