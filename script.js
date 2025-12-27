@@ -84,10 +84,10 @@ function sendLog() {
 
   document.getElementById("chatLog").appendChild(aiBubble);
 
-  // Scrolla alltid till sista bubblan efter rendering
-  requestAnimationFrame(() => {
+  // Scrolla alltid ner till AI-bubblan efter liten timeout för att garantera korrekt höjd
+  setTimeout(() => {
     aiBubble.scrollIntoView({ behavior: 'smooth', block: 'end' });
-  });
+  }, 50); // 50ms brukar räcka
 
   input.value = "";
 }
