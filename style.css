@@ -17,6 +17,10 @@ body {
 /* =======================
    HEADER
    ======================= */
+header {
+  margin-bottom: 0; /* tar bort extra luft */
+}
+
 header .logo-container {
   display: flex;
   align-items: center;
@@ -48,7 +52,7 @@ header .logo-text small {
   display: flex;
   flex-direction: column;
   max-width: 900px;
-  margin: 0 auto;
+  margin: 0; /* tar bort onödig luft */
   overflow: hidden;
   min-height: 0;
 }
@@ -95,7 +99,7 @@ header .logo-text small {
   line-height: 1.4;
   word-break: break-word;
   position: relative;
-  margin-bottom: 8px; /* 🔹 luftigare mellan bubblor på mobil */
+  margin-bottom: 8px; /* luftigare mellan bubblor på mobil */
 }
 
 .chat-bubble.ai {
