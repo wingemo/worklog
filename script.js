@@ -1,92 +1,134 @@
-// Lägg in detta i script.js (ersätt/lägg till)
-document.addEventListener('DOMContentLoaded', () => {
-  const chatLog = document.getElementById('chatLog');
-  const input = document.getElementById('logInput');
+function showChat() {
+  document.getElementById("chat-view").classList.remove("d-none");
+  document.getElementById("history-view").classList.add("d-none");
+  document.getElementById("chatInput").classList.remove("d-none");
+  document.getElementById("tab-chat").classList.add("active");
+  document.getElementById("tab-history").classList.remove("active");
+}
 
-  if (!chatLog) return;
+function showHistory() {
+  document.getElementById("chat-view").classList.add("d-none");
+  document.getElementById("history-view").classList.remove("d-none");
+  document.getElementById("chatInput").classList.add("d-none");
+  document.getElementById("tab-chat").classList.remove("active");
+  document.getElementById("tab-history").classList.add("active");
+}
 
-  // Bestämmer om användaren redan är nära botten (px-tolerans)
-  const isNearBottom = (threshold = 150) => {
-    return chatLog.scrollTop + chatLog.clientHeight >= chatLog.scrollHeight - threshold;
-  };
+const customerLogs = {
+  "ICA Nära": [
+    {
+      name: "Per Svensson",
+      time: "2024-10-15 08:30",
+      comment: "Installerade utebelysning och säkerhetsbelysning i entré.",
+      workType: "Installation",
+      products: "LED-belysning, kabel 2G1.5, kabelkanal",
+    },
+    {
+      name: "Anna Karlsson",
+      time: "2024-11-02 09:15",
+      comment: "Byte av elcentral, nya automatsäkringar monterade.",
+      workType: "Service / Byte",
+      products: "Automatsäkringar, elcentral",
+    },
+  ],
+  "Privat – Johansson": [
+    {
+      name: "Johan Johansson",
+      time: "2024-09-20 14:00",
+      comment: "Installerade dimmer för köksbelysning och bytte proppskåp.",
+      workType: "Installation",
+      products: "Dimmer, proppskåp, skruvdragare",
+    },
+  ],
+  "Företag AB": [
+    {
+      name: "Sara Lind",
+      time: "2024-12-01 10:30",
+      comment: "Nytt eluttag installerat i kontorslandskap.",
+      workType: "Installation",
+      products: "Eluttag, kabel 3G1.5, kabelklammer",
+    },
+  ],
+};
 
-  // Scrollar till botten (smooth eller instant)
-  const scrollToBottom = (smooth = true) => {
-    if (smooth && 'scrollTo' in chatLog) {
-      chatLog.scrollTo({ top: chatLog.scrollHeight, behavior: 'smooth' });
-    } else {
-      chatLog.scrollTop = chatLog.scrollHeight;
-    }
-  };
+function sendLog() {
+  const input = document.getElementById("logInput");
+  const text = input.value.trim();
+  if (!text) return;
 
-  // Starta längst ned när sidan laddas
-  scrollToBottom(false);
+  const bubble = document.createElement("div");
+  bubble.className = "chat-bubble";
+  bubble.innerHTML = `${text}<span class="timestamp">${new Date().toLocaleTimeString(
+    "sv-SE",
+    { hour: "2-digit", minute: "2-digit" }
+  )}</span>`;
+  document.getElementById("chatLog").appendChild(bubble);
 
-  // MutationObserver: reagera när nya bubblor läggs till
-  const mo = new MutationObserver((mutationsList) => {
-    let added = false;
-    for (const m of mutationsList) {
-      if (m.addedNodes && m.addedNodes.length) {
-        added = true;
-        break;
-      }
-    }
-    if (!added) return;
+  const aiBubble = document.createElement("div");
+  aiBubble.className = "chat-bubble ai";
 
-    // Om användaren är nära botten -> scrolla, annars visa indikator (valfritt)
-    if (isNearBottom()) {
-      scrollToBottom(true);
-    } else {
-      // Om du vill: visa en knapp/indikator som användaren kan klicka för att hoppa ner.
-      const indicator = document.querySelector('.new-messages-indicator');
-      if (indicator) indicator.style.display = 'block';
-    }
+  const match = text.match(/kund\s(.+)/i);
+  if (match && customerLogs[match[1]]) {
+    let historyHtml = `<strong>Historik ${match[1]}:</strong>`;
+    customerLogs[match[1]].forEach((log) => {
+      historyHtml += `
+      <div class="history-row">
+        <strong>${log.name}</strong> <span class="history-badge">${log.workType}</span><br>
+        ${log.comment}<br>
+        <span class="history-products">Produkter: ${log.products}</span> <span class="history-time">${log.time}</span>
+      </div>`;
+    });
+    aiBubble.innerHTML = `${historyHtml}<span class="timestamp">${new Date().toLocaleTimeString(
+      "sv-SE",
+      { hour: "2-digit", minute: "2-digit" }
+    )}</span>`;
+  } else {
+    aiBubble.innerHTML = `Loggen är nu bearbetad och finns under historik.<span class="timestamp">${new Date().toLocaleTimeString(
+      "sv-SE",
+      { hour: "2-digit", minute: "2-digit" }
+    )}</span>`;
+  }
+
+  document.getElementById("chatLog").appendChild(aiBubble);
+  input.value = "";
+  document.getElementById("chatLog").scrollTop = document.getElementById(
+    "chatLog"
+  ).scrollHeight;
+}
+
+function loadCustomerLogs() {
+  const select = document.getElementById("customerSelect");
+  const logsDiv = document.getElementById("historyLogs");
+  logsDiv.innerHTML = "";
+  const customer = select.value;
+  if (!customerLogs[customer]) return;
+
+  const customerHeader = document.createElement("div");
+  customerHeader.className = "customer-card";
+  customerHeader.textContent = customer;
+  logsDiv.appendChild(customerHeader);
+
+  customerLogs[customer].forEach((log) => {
+    const card = document.createElement("div");
+    card.className = "history-card";
+    card.innerHTML = `
+    <div class="d-flex justify-content-between align-items-start">
+      <div>
+        <strong>${log.name}</strong> <small class="text-muted">(${log.time})</small>
+        <div><span class="badge bg-info">${log.workType}</span></div>
+      </div>
+    </div>
+    <div class="mt-1" style="font-size:14px;">${log.comment}</div>
+    <div class="mt-1 text-muted" style="font-size:13px;">Produkter: ${log.products}</div>
+  `;
+    logsDiv.appendChild(card);
   });
+}
 
-  mo.observe(chatLog, { childList: true, subtree: false });
-
-  // Exempel: knapp för att hoppa till nya meddelanden (om du lägger in indikatoren i HTML)
-  const indicator = document.querySelector('.new-messages-indicator');
-  if (indicator) {
-    indicator.addEventListener('click', () => {
-      scrollToBottom(true);
-      indicator.style.display = 'none';
-    });
-  }
-
-  // Hjälpfunktion för att lägga till en bubblan programatiskt
-  window.appendChatBubble = function(text, isAI = false) {
-    const div = document.createElement('div');
-    div.className = 'chat-bubble' + (isAI ? ' ai' : '');
-    const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    div.innerHTML = `${escapeHtml(text)} <span class="timestamp">${time}</span>`;
-    chatLog.appendChild(div);
-    // Om du vill säkerställa placeringen direkt (utan observer), kan du avkommentera:
-    // if (isNearBottom()) scrollToBottom(true);
-  };
-
-  // Skicka med Enter (exempel)
-  if (input) {
-    input.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        const val = input.value.trim();
-        if (!val) return;
-        appendChatBubble(val, false);
-        input.value = '';
-        // Simulera AI-svar efter kort stund
-        setTimeout(() => appendChatBubble('Loggen är nu bearbetad och finns under historik.', true), 300);
-      }
-    });
-  }
-
-  // Enkel HTML-escaping för textinnehåll
-  function escapeHtml(s) {
-    return String(s)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#39;');
+// Skicka logg när Enter trycks
+document.getElementById("logInput").addEventListener("keydown", function(event) {
+  if (event.key === "Enter") {
+    event.preventDefault(); // Förhindra radbrytning
+    sendLog();
   }
 });
