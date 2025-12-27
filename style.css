@@ -46,7 +46,8 @@ header .logo-text small {
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
-  max-width: 900px;
+  max-width: 90%;
+  border: none !important;
   margin: 0 auto;
   overflow: hidden;
 }
