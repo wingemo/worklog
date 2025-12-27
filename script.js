@@ -84,9 +84,10 @@ function sendLog() {
 
   document.getElementById("chatLog").appendChild(aiBubble);
 
-  // Scrolla alltid till sista bubblan
-  const chatLog = document.getElementById("chatLog");
-  chatLog.lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  // Scrolla alltid till sista bubblan efter rendering
+  requestAnimationFrame(() => {
+    aiBubble.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  });
 
   input.value = "";
 }
