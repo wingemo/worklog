@@ -147,7 +147,7 @@ body {
   z-index: 1030;
   background: #ffffff;
   border-top: 1px solid #dee2e6;
-  padding-bottom: env(safe-area-inset-bottom); /* iPhone safe area */
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 .chat-input .container-lg {
@@ -157,15 +157,17 @@ body {
 /* Rund input-grupp */
 .chat-input .input-group {
   display: flex;
-  align-items: center;
+  align-items: stretch; /* 🔥 gör knappen fylla höjden */
   background: #f1f3f5;
   border-radius: 999px;
-  padding: 6px 8px;
+  padding: 4px;
+  gap: 6px;
   border: none;
 }
 
 /* Inputfält */
 .chat-input .form-control {
+  flex: 1; /* tar all kvarvarande plats */
   background-color: transparent !important;
   border: none !important;
   box-shadow: none !important;
@@ -174,8 +176,7 @@ body {
   font-size: 16px; /* stoppar iOS-zoom */
   color: #212529;
   caret-color: #0d6efd;
-
-  padding: 8px 10px;
+  padding: 10px 12px;
 }
 
 /* Placeholder */
@@ -186,17 +187,27 @@ body {
 
 /* Kamera-knapp */
 .chat-input label.btn {
-  border: none !important;
-  background: transparent !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0 10px;
   font-size: 20px;
-  padding: 6px 10px;
-  line-height: 1;
+  background: transparent !important;
+  border: none !important;
 }
 
 /* Skicka-knapp */
 .chat-input button.btn-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 100%;
+  padding: 0 18px;
+  margin: 0;
+
   border-radius: 999px;
-  padding: 6px 16px;
   font-size: 15px;
   white-space: nowrap;
 }
