@@ -128,7 +128,12 @@ document.getElementById("logInput").addEventListener("keydown", function(event) 
 // MutationObserver för automatisk scroll
 // ================================
 const chatLog = document.getElementById("chatLog");
+
 const observer = new MutationObserver(() => {
-  chatLog.scrollTop = chatLog.scrollHeight;
+  // Vänta tills bubblan har renderats
+  setTimeout(() => {
+    chatLog.scrollTop = chatLog.scrollHeight;
+  }, 10); // 10–50ms räcker oftast
 });
-observer.observe(chatLog, { childList: true });
+
+observer.observe(chatLog, { childList: true });;
