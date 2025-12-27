@@ -1,33 +1,10 @@
-:root {
-  /* Justera dessa efter hur hög din header och input är */
-  --header-height: 64px; /* höjden på headern */
-  --input-height: 90px;  /* höjden längst ner (t.ex. chat-input) */
-}
-
-/* Gör så att innehållet inte hamnar under headern */
 body {
-  padding-top: var(--header-height);
-  padding-bottom: var(--input-height);
+  padding-bottom: 90px;
   background-color: #f8f9fa;
   font-family: 'Poppins', sans-serif;
 }
 
-/* Header - alltid synlig högst upp */
-header {
-  position: fixed; /* ändrat från sticky till fixed */
-  top: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: var(--header-height);
-  z-index: 2000; /* Ökat så headerknappar alltid kan klickas */
-  background: #ffffff; /* se till att header täcker innehållet bakom */
-  display: flex;
-  align-items: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-}
-
-/* Header innehåll (finns redan i filen, behåll eller justera) */
+/* Header */
 header .logo-container {
   display: flex;
   align-items: center;
@@ -53,26 +30,11 @@ header .logo-text small {
   color: #6c757d;
 }
 
-/* History button - se till att den kan ta emot klick */
-.history-button {
-  position: relative; /* skapa eget stacking context men behåll inom header */
-  z-index: 2010;      /* högre än header för att garantera klickbarhet */
-  pointer-events: auto;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-}
-
 /* Chat bubblor */
 .chat-log {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  /* Anpassa max-height dynamiskt utifrån header + input */
-  max-height: calc(100vh - var(--header-height) - var(--input-height));
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  pointer-events: auto;
+  gap: 8px;
 }
 
 .chat-bubble {
@@ -144,7 +106,4 @@ header .logo-text small {
 .chat-input {
   z-index: 1030;
   box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.08);
-  position: relative;
-  height: var(--input-height); /* valfritt, använd om du vill fixa höjden */
-  pointer-events: auto;
 }
