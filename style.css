@@ -93,6 +93,7 @@ header .logo-text small {
   line-height: 1.4;
   word-break: break-word;
   position: relative;
+  margin-top: 3px;
 }
 
 .chat-bubble.ai {
