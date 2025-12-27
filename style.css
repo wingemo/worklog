@@ -70,12 +70,14 @@ header .logo-text small {
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 1px;
   padding: 16px 12px;
   overflow-y: auto;
   min-height: 0; /* 🔥 VIKTIG */
   background: #f8f9fa;
-  box-sizing: border-box;
+  box-sizing: border-box;  
+  border: none !important;
+  box-shadow: none !important; 
 }
 
 /* =======================
