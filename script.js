@@ -56,14 +56,13 @@ function sendLog() {
   const text = input.value.trim();
   if (!text) return;
 
+  // Skapa användarbubbla
   const bubble = document.createElement("div");
   bubble.className = "chat-bubble";
-  bubble.innerHTML = `${text}<span class="timestamp">${new Date().toLocaleTimeString(
-    "sv-SE",
-    { hour: "2-digit", minute: "2-digit" }
-  )}</span>`;
+  bubble.innerHTML = `${text}<span class="timestamp">${new Date().toLocaleTimeString("sv-SE", { hour: "2-digit", minute: "2-digit" })}</span>`;
   document.getElementById("chatLog").appendChild(bubble);
 
+  // Skapa AI-bubbla
   const aiBubble = document.createElement("div");
   aiBubble.className = "chat-bubble ai";
 
@@ -78,22 +77,18 @@ function sendLog() {
         <span class="history-products">Produkter: ${log.products}</span> <span class="history-time">${log.time}</span>
       </div>`;
     });
-    aiBubble.innerHTML = `${historyHtml}<span class="timestamp">${new Date().toLocaleTimeString(
-      "sv-SE",
-      { hour: "2-digit", minute: "2-digit" }
-    )}</span>`;
+    aiBubble.innerHTML = `${historyHtml}<span class="timestamp">${new Date().toLocaleTimeString("sv-SE", { hour: "2-digit", minute: "2-digit" })}</span>`;
   } else {
-    aiBubble.innerHTML = `Loggen är nu bearbetad och finns under historik.<span class="timestamp">${new Date().toLocaleTimeString(
-      "sv-SE",
-      { hour: "2-digit", minute: "2-digit" }
-    )}</span>`;
+    aiBubble.innerHTML = `Loggen är nu bearbetad och finns under historik.<span class="timestamp">${new Date().toLocaleTimeString("sv-SE", { hour: "2-digit", minute: "2-digit" })}</span>`;
   }
 
   document.getElementById("chatLog").appendChild(aiBubble);
+
+  // Scrolla alltid till sista bubblan
+  const chatLog = document.getElementById("chatLog");
+  chatLog.lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
+
   input.value = "";
-  document.getElementById("chatLog").scrollTop = document.getElementById(
-    "chatLog"
-  ).scrollHeight;
 }
 
 function loadCustomerLogs() {
