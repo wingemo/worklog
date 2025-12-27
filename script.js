@@ -84,11 +84,6 @@ function sendLog() {
 
   document.getElementById("chatLog").appendChild(aiBubble);
 
-  // Scrolla alltid ner till AI-bubblan efter liten timeout för att garantera korrekt höjd
-  setTimeout(() => {
-    aiBubble.scrollIntoView({ behavior: 'smooth', block: 'end' });
-  }, 50); // 50ms brukar räcka
-
   input.value = "";
 }
 
@@ -124,7 +119,16 @@ function loadCustomerLogs() {
 // Skicka logg när Enter trycks
 document.getElementById("logInput").addEventListener("keydown", function(event) {
   if (event.key === "Enter") {
-    event.preventDefault(); // Förhindra radbrytning
+    event.preventDefault();
     sendLog();
   }
 });
+
+// ================================
+// MutationObserver för automatisk scroll
+// ================================
+const chatLog = document.getElementById("chatLog");
+const observer = new MutationObserver(() => {
+  chatLog.scrollTop = chatLog.scrollHeight;
+});
+observer.observe(chatLog, { childList: true });
