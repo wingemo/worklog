@@ -1,4 +1,3 @@
-// Byt mellan chat och historik
 function showChat() {
   document.getElementById("chat-view").classList.remove("d-none");
   document.getElementById("history-view").classList.add("d-none");
@@ -15,7 +14,6 @@ function showHistory() {
   document.getElementById("tab-history").classList.add("active");
 }
 
-// Exempeldata för kundloggar
 const customerLogs = {
   "ICA Nära": [
     {
@@ -53,13 +51,11 @@ const customerLogs = {
   ],
 };
 
-// Skicka meddelande / logg
 function sendLog() {
   const input = document.getElementById("logInput");
   const text = input.value.trim();
   if (!text) return;
 
-  // Skapa användarbubbla
   const bubble = document.createElement("div");
   bubble.className = "chat-bubble";
   bubble.innerHTML = `${text}<span class="timestamp">${new Date().toLocaleTimeString(
@@ -68,7 +64,6 @@ function sendLog() {
   )}</span>`;
   document.getElementById("chatLog").appendChild(bubble);
 
-  // Skapa AI-bubbla
   const aiBubble = document.createElement("div");
   aiBubble.className = "chat-bubble ai";
 
@@ -96,16 +91,11 @@ function sendLog() {
 
   document.getElementById("chatLog").appendChild(aiBubble);
   input.value = "";
-
-  // Scrolla ner med mjuk animation
-  const chatLog = document.getElementById("chatLog");
-  chatLog.scrollTo({
-    top: chatLog.scrollHeight,
-    behavior: "smooth"
-  });
+  document.getElementById("chatLog").scrollTop = document.getElementById(
+    "chatLog"
+  ).scrollHeight;
 }
 
-// Ladda kundhistorik
 function loadCustomerLogs() {
   const select = document.getElementById("customerSelect");
   const logsDiv = document.getElementById("historyLogs");
@@ -122,20 +112,17 @@ function loadCustomerLogs() {
     const card = document.createElement("div");
     card.className = "history-card";
     card.innerHTML = `
-      <div class="d-flex justify-content-between align-items-start">
-        <div>
-          <strong>${log.name}</strong> <small class="text-muted">(${log.time})</small>
-          <div><span class="badge bg-info">${log.workType}</span></div>
-        </div>
+    <div class="d-flex justify-content-between align-items-start">
+      <div>
+        <strong>${log.name}</strong> <small class="text-muted">(${log.time})</small>
+        <div><span class="badge bg-info">${log.workType}</span></div>
       </div>
-      <div class="mt-1" style="font-size:14px;">${log.comment}</div>
-      <div class="mt-1 text-muted" style="font-size:13px;">Produkter: ${log.products}</div>
-    `;
+    </div>
+    <div class="mt-1" style="font-size:14px;">${log.comment}</div>
+    <div class="mt-1 text-muted" style="font-size:13px;">Produkter: ${log.products}</div>
+  `;
     logsDiv.appendChild(card);
   });
-
-  // Scrolla historik till toppen (eller botten om du vill)
-  logsDiv.scrollTop = logsDiv.scrollHeight;
 }
 
 // Skicka logg när Enter trycks
